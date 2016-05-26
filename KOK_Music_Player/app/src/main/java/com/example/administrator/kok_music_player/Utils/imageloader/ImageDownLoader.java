@@ -3,22 +3,29 @@ package com.example.administrator.kok_music_player.Utils.imageloader;
 /**
  * Created by Administrator on 2016/5/7.
  */
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
+import com.example.administrator.kok_music_player.R;
 
-import edu.jyu.apts.android.R;
 
 public class ImageDownLoader {
     /**
@@ -35,6 +42,11 @@ public class ImageDownLoader {
     private ExecutorService mImageThreadPool = null;
 
     private Context context;
+    private final Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+    private final BitmapFactory.Options sBitmapOptions = new BitmapFactory.Options();
+    private  Bitmap mCachedBit = null;
+
+
 
 
 
@@ -148,6 +160,50 @@ public class ImageDownLoader {
         return null;
     }
 
+    public Bitmap downloadImage(final long songid,final long albumid, final onImageLoaderListener listener){
+        //替换Url中非字母和非数字的字符，这里比较重要，因为我们用Url作为文件名，比如我们的Url
+        //是Http://xiaanming/abc.jpg;用这个作为图片名称，系统会认为xiaanming为一个目录，
+        //我们没有创建此目录保存文件就会报错
+        final String subUrl = String.valueOf(albumid);
+        Bitmap bitmap = showCacheBitmap(subUrl);
+        if(bitmap != null){
+            return bitmap;
+        }else{
+
+            final Handler handler = new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    listener.onImageLoader((Bitmap)msg.obj, subUrl);
+                }
+            };
+
+            getThreadPool().execute(new Runnable() {
+
+                @Override
+                public void run() {
+                    Bitmap bitmap = getBitmapFromNative(songid,albumid);
+                    Message msg = handler.obtainMessage();
+                    msg.obj = bitmap;
+                    handler.sendMessage(msg);
+
+                    try {
+                        //保存在SD卡或者手机目录
+                        fileUtils.savaBitmap(subUrl, bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("test", subUrl);
+
+                    //将Bitmap 加入内存缓存
+                    addBitmapToMemoryCache(subUrl, bitmap);
+                }
+            });
+        }
+
+        return null;
+    }
+
     /**
      * 获取Bitmap, 内存中没有就去手机或者sd卡中获取，这一步在getView中会调用，比较关键的一步
      * @param url
@@ -170,6 +226,8 @@ public class ImageDownLoader {
 
         return null;
     }
+
+
 
 
 
@@ -201,6 +259,11 @@ public class ImageDownLoader {
         return bitmap;
     }
 
+    private Bitmap getBitmapFromNative(long songid,long albumid){
+
+        return getArtwork(songid, albumid);
+    }
+
     /**
      * 取消正在下载的任务
      */
@@ -219,6 +282,100 @@ public class ImageDownLoader {
      */
     public interface onImageLoaderListener{
         void onImageLoader(Bitmap bitmap, String url);
+    }
+
+
+    public Bitmap getArtwork(long song_id, long album_id) {
+        boolean allowdefault = true;
+        if (album_id < 0) {
+            // This is something that is not in the database, so get the album art directly
+            // from the file.
+            if (song_id >= 0) {
+                getArtworkFromFile(context, song_id, -1);
+                Bitmap bm =  getArtworkFromFile(context, song_id, -1);;
+                if (bm != null) {
+                    return bm;
+                }
+            }
+            if (allowdefault) {
+                return getDefaultArtwork(context);
+            }
+            return null;
+        }
+        ContentResolver res = context.getContentResolver();
+        Uri uri = ContentUris.withAppendedId(sArtworkUri, album_id);
+        if (uri != null) {
+            InputStream in = null;
+            try {
+                in = res.openInputStream(uri);
+                return BitmapFactory.decodeStream(in, null, sBitmapOptions);
+            } catch (FileNotFoundException ex) {
+                // The album art thumbnail does not actually exist. Maybe the user deleted it, or
+                // maybe it never existed to begin with.
+                Bitmap bm = getArtworkFromFile(context, song_id, album_id);
+                if (bm != null) {
+                    if (bm.getConfig() == null) {
+                        bm = bm.copy(Bitmap.Config.RGB_565, false);
+                        if (bm == null && allowdefault) {
+                            return getDefaultArtwork(context);
+                        }
+                    }
+                } else if (allowdefault) {
+                    bm = getDefaultArtwork(context);
+                }
+                return bm;
+            } finally {
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException ex) {
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private Bitmap getArtworkFromFile(Context context, long songid, long albumid) {
+            Bitmap bm = null;
+            byte [] art = null;
+            String path = null;
+            if (albumid < 0 && songid < 0) {
+                throw new IllegalArgumentException("Must specify an album or a song id");
+            }
+            try {
+                if (albumid < 0) {
+                    Uri uri = Uri.parse("content://media/external/audio/media/" + songid + "/albumart");
+                    ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
+                    if (pfd != null) {
+                        FileDescriptor fd = pfd.getFileDescriptor();
+                        bm = BitmapFactory.decodeFileDescriptor(fd);
+                    }
+                } else {
+                    Uri uri = ContentUris.withAppendedId(sArtworkUri, albumid);
+                    ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
+                    if (pfd != null) {
+                        FileDescriptor fd = pfd.getFileDescriptor();
+                        bm = BitmapFactory.decodeFileDescriptor(fd);
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+
+            }
+            if (bm != null) {
+                mCachedBit = bm;
+            }
+
+
+        return bm;
+    }
+
+    private static Bitmap getDefaultArtwork(Context context) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inPreferredConfig = Bitmap.Config.RGB_565;
+        return BitmapFactory.decodeStream(
+                context.getResources().openRawResource(R.drawable.logo), null, opts);
     }
 
 }

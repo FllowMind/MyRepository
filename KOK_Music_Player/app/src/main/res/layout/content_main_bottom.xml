@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/gray_black">
+
+    <com.example.administrator.kok_music_player.customview.CImageView
+        android:id="@+id/music_panel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:clickable="true"
+        android:src="@drawable/logo" />
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:id="@+id/show_music_name"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/music_panel"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginRight="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/play_pause_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/play_button"
+            android:background="@android:color/transparent"
+            />
+
+        <ImageButton
+            android:background="@android:color/transparent"
+            android:src="@drawable/next_button"
+            android:id="@+id/next_music"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

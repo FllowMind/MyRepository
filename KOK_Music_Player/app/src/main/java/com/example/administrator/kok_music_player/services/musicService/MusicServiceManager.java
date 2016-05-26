@@ -103,9 +103,9 @@ public class MusicServiceManager {
     }
 
     /*继续播放*/
-    public void continueToPlay(int musicid) {
+    public void continueToPlay() {
         try {
-            playerInterface.continueToPlay(musicid);
+            playerInterface.continueToPlay();
         } catch (RemoteException e) {
             e.printStackTrace();
         }

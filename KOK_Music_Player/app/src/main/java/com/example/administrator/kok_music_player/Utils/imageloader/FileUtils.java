@@ -27,7 +27,7 @@ public class FileUtils {
     /**
      * 保存Image的目录名
      */
-    private final static String FOLDER_NAME ="/溯源APP/images/";
+    private final static String FOLDER_NAME ="/i音乐/images/";
 
 
 

@@ -1,4 +1,4 @@
-package com.example.administrator.kok_music_player.CustomView;
+package com.example.administrator.kok_music_player.customview;
 
 /**
  * Created by Administrator on 2016/5/24.

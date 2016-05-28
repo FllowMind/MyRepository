@@ -10,7 +10,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +43,9 @@ import com.example.administrator.kok_music_player.Utils.musicutils.MusicInfo;
 import com.example.administrator.kok_music_player.Utils.pictureutil.PictureUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -48,6 +54,8 @@ public class MainActivity extends AppCompatActivity
     private TextView music_name_TV;
     private CImageView musicpanel;
     private ListView music_listview;
+    private ViewPager viewPager;
+    private PagerTabStrip pagerTabStrip;
     private MediaPlayer mediaPlayer;
     private File[] musicFiles;
     private MusicPlayerInterface playerInterface;
@@ -71,6 +79,8 @@ public class MainActivity extends AppCompatActivity
     private MusicServiceManager musicServiceManager;//音乐播放服务管理器
     private MusicSearchServiceManager musicSSManager;//音乐搜索服务管理器
     private ImageDownLoader mImageDownLoader;
+
+
 
 
     @Override
@@ -104,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 //        MyStatuBar.initSystemBar(this,Color.BLACK);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("本地音乐");
         setSupportActionBar(toolbar);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -134,39 +144,20 @@ public class MainActivity extends AppCompatActivity
         next_btn = (ImageButton) this.findViewById(R.id.next_music);
         next_btn.setOnClickListener(this);
         music_name_TV = (TextView) this.findViewById(R.id.show_music_name);
+        viewPager = (ViewPager) this.findViewById(R.id.music_viewpager);
+        pagerTabStrip = (PagerTabStrip) this.findViewById(R.id.tabstrip);
+
         mImageDownLoader = new ImageDownLoader(this);
         map3InfoLists = MediaUtil.getMp3Infos(this);
-
 
         musicSSManager = new MusicSearchServiceManager(this);//初始化音乐搜索服务管理器
         musicServiceManager = new MusicServiceManager(this);//初始化音乐播放服务管理器
 
 
-        music_listview = (ListView) this.findViewById(R.id.music_list);
-        music_listview.setAdapter(new ImageAdapter(this,music_listview,map3InfoLists));
-        music_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (musicServiceManager.getPlaySate() == true && musicServiceManager.getMusicId() == position) {
-                    updatePlayBtn(false);
-                    musicServiceManager.pauseMusic();//暂停音乐
-                } else if (musicServiceManager.getPlaySate() == false && musicServiceManager.getMusicId() == position) {
-                    updatePlayBtn(true);
-                    musicServiceManager.continueToPlay();//继续播放
-                } else {
-
-                    updatePlayBtn(true);
-                    musicServiceManager.chooseMusicToPlay(position);//选择播放新音乐
-                }
-
-            }
-        });
-
         recevier = new MyMusicBroadcastRecevier();//初始化广播接收者
         pictureUtil = new PictureUtil(this);
 
-
+        initview();
     }
 
     private Handler handler = new Handler() {
@@ -189,7 +180,6 @@ public class MainActivity extends AppCompatActivity
                                 if (musicpanel != null && bitmap != null) {
                                     musicpanel.setImageBitmap(bitmap);
                                 }
-
                             }
                         });
                     }else{
@@ -207,15 +197,6 @@ public class MainActivity extends AppCompatActivity
     };
 
 
-    private void updatePlayBtn(boolean isplaying) {
-
-        if (isplaying == true) {
-            play_pause_btn.setImageDrawable(getResources().getDrawable(R.drawable.pause_button));
-        } else {
-            play_pause_btn.setImageDrawable(getResources().getDrawable(R.drawable.play_button));
-
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -241,6 +222,92 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+
+    private void initview(){
+
+        final List<String> titlelist = new ArrayList<>();
+        titlelist.add("全部");
+        titlelist.add("歌手");
+        titlelist.add("专辑");
+
+        final List<View> views = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view_all = inflater.inflate(R.layout.music_list_all, null);
+        View view_songer = inflater.inflate(R.layout.music_list_album, null);
+        View view_album = inflater.inflate(R.layout.music_list_artist, null);
+
+        views.add(view_all);
+        views.add(view_songer);
+        views.add(view_album);
+
+        music_listview = (ListView) view_all.findViewById(R.id.music_list_all);
+        music_listview.setAdapter(new ImageAdapter(this,music_listview,map3InfoLists));
+        music_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (musicServiceManager.getPlaySate() == true && musicServiceManager.getMusicId() == position) {
+                    updatePlayBtn(false);
+                    musicServiceManager.pauseMusic();//暂停音乐
+                } else if (musicServiceManager.getPlaySate() == false && musicServiceManager.getMusicId() == position) {
+                    updatePlayBtn(true);
+                    musicServiceManager.continueToPlay();//继续播放
+                } else {
+
+                    updatePlayBtn(true);
+                    musicServiceManager.chooseMusicToPlay(position);//选择播放新音乐
+                }
+
+            }
+        });
+
+
+        PagerAdapter pageradapter = new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return views.size();
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+
+                View view = views.get(position);
+                container.addView(view);
+                return view;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView(views.get(position));
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titlelist.get(position);
+            }
+        };
+        pagerTabStrip.setTextColor(Color.WHITE);
+        pagerTabStrip.setDrawingCacheBackgroundColor(Color.WHITE);
+        pagerTabStrip.setTabIndicatorColor(Color.WHITE);
+        viewPager.setAdapter(pageradapter);
+
+    }
+
+    private void updatePlayBtn(boolean isplaying) {
+
+        if (isplaying == true) {
+            play_pause_btn.setImageDrawable(getResources().getDrawable(R.drawable.pause_button));
+        } else {
+            play_pause_btn.setImageDrawable(getResources().getDrawable(R.drawable.play_button));
+
+        }
+    }
+
 
     public class MyMusicBroadcastRecevier extends BroadcastReceiver {
         private int musicid;
@@ -326,7 +393,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu_item, menu);
         return true;
     }
 

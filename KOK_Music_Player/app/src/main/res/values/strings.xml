@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">KOK_Music_Player</string>
 
+    <string name="app_name">i音乐</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="action_scan_music">扫描音乐</string>
+    <string name="no_lyrics">没找到歌词！请下载歌词！</string>
+
 </resources>

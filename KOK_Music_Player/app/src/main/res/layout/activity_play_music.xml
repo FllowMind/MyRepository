@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lyric="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg10"
@@ -12,22 +13,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
-    <com.example.administrator.kok_music_player.customview.LrcView
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/bottom"
-        android:layout_below="@+id/topPanel"
-        android:id="@+id/lrcview"
+    <com.example.administrator.kok_music_player.customview.LyricView
+        android:id="@+id/lyricView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_weight="1"/>
+        android:layout_above="@+id/bottom"
+        android:layout_below="@+id/topPanel"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        lyric:animDuration="400"
+        lyric:currentTextColor="#FF0E8DC4"
+        lyric:lineSpace="10dp"
+        lyric:maxLine="10"
+        lyric:textColor="#ffffff"
+        lyric:textSize="20sp" />
 
     <LinearLayout
         android:id="@+id/bottom"
-        android:background="@drawable/button_bg"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/button_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,24 +45,30 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_gravity="center"
                 android:id="@+id/played_time"
-                android:layout_width="20dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:text="00:00" />
 
             <SeekBar
-                android:progressDrawable="@drawable/po_seekbar"
-                android:maxHeight="2.0dip"
-                android:minHeight="2.0dip"
                 android:id="@+id/play_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:maxHeight="2.0dip"
+                android:minHeight="2.0dip"
+                android:progressDrawable="@drawable/po_seekbar" />
 
             <TextView
+                android:text="00:00"
+                android:layout_gravity="center"
                 android:id="@+id/total_time"
-                android:layout_width="20dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1" />
 
 

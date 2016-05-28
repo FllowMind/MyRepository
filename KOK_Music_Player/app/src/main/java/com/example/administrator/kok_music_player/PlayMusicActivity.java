@@ -18,13 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.kok_music_player.Utils.MyStatuBar;
-import com.example.administrator.kok_music_player.Utils.musicutils.LrcContent;
-import com.example.administrator.kok_music_player.Utils.musicutils.LrcProcess;
+import com.example.administrator.kok_music_player.Utils.musicutils.Lyric;
+import com.example.administrator.kok_music_player.Utils.musicutils.LyricHelper;
+import com.example.administrator.kok_music_player.Utils.musicutils.MediaUtil;
 import com.example.administrator.kok_music_player.Utils.musicutils.MusicInfo;
-import com.example.administrator.kok_music_player.customview.LrcView;
-import com.example.administrator.kok_music_player.services.musicService.MusicService;
+import com.example.administrator.kok_music_player.customview.LyricView;
 import com.example.administrator.kok_music_player.services.musicService.MusicServiceManager;
-import com.example.administrator.kok_music_player.services.musicsearchservice.MusicSearchService;
 import com.example.administrator.kok_music_player.services.musicsearchservice.MusicSearchServiceManager;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private ImageButton play_pause, pre_btn, next_btn, model_btn, list_btn;
     private ImageButton back_button;
     private TextView musicName;
-    private LrcView lrcView;
+    private LyricView lrcView;
     private SeekBar playpro;
     private TextView curren_pro, total_pro;
     private MusicPlayerInterface playerInterface;
@@ -58,9 +57,9 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private MusicServiceManager musicServiceManager;
     private MusicSearchServiceManager mssManager ;
     private final String TAG = this.getClass().getName();
-    private LrcProcess mLrcProcess; //歌词处理
-    private List<LrcContent> lrcList = new ArrayList<LrcContent>(); //存放歌词列表对象
-    private int index = 0;
+    private List<Lyric> lrcList = new ArrayList<Lyric>(); //存放歌词列表对象
+    private LyricHelper lyricHelper ;
+
 
 
 
@@ -86,7 +85,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         back_button = (ImageButton) this.findViewById(R.id.back_button);
         back_button.setOnClickListener(this);
         musicName = (TextView) this.findViewById(R.id.music_name);
-        lrcView = (LrcView) this.findViewById(R.id.lrcview);
+        lrcView = (LyricView) this.findViewById(R.id.lyricView);
 
         musicServiceManager = new MusicServiceManager(this);//初始化音乐管理器
         mssManager = new MusicSearchServiceManager(this);
@@ -125,7 +124,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             switch (msg.what) {
                 case UPDATE_PROCESS:
                     int progress = (int) msg.obj;
-                    playpro.setProgress(progress);
+                    updateprogress(progress);
+
                     break;
                 case UPDATE_SONG:
 
@@ -134,7 +134,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                     boolean play_state = (boolean) msg.obj;
                     updatePlayBtn(play_state);
                     changeMusicName();
-//                    updateProgress();
                     break;
                 case UPDATE_PLAY_MODEL:
                     int model = (int) msg.obj;
@@ -145,6 +144,12 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         }
     };
 
+    //更新进度
+    private void updateprogress(int progress) {
+        playpro.setProgress(progress);
+        curren_pro.setText(MediaUtil.formaTime(musicServiceManager.getCurrentPosition()));
+        total_pro.setText(MediaUtil.formaTime(musicServiceManager.getDuration()));
+    }
 
     private void updatePlayBtn(boolean isplaying) {
 
@@ -212,56 +217,57 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     public void initLrc(){
         MusicInfo musicInfo =(MusicInfo) mssManager.getAllMusicInDataBase().get(musicServiceManager.getMusicId());
-        mLrcProcess = new LrcProcess();
-        //读取歌词文件
-        mLrcProcess.readLRC(musicInfo.getUrl());
+//        mLrcProcess = new LrcProcess();
+//        //读取歌词文件
+//        mLrcProcess.readLRC();
         //传回处理后的歌词文件
-        lrcList = mLrcProcess.getLrcList();
-        lrcView.setmLrcList(lrcList);
-        //切换带动画显示歌词
-        lrcView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.music_text_change));
+        lyricHelper = new LyricHelper(musicInfo.getUrl());
+        lrcList = lyricHelper.getLyrics();
+        lrcView.setLyricContent(lrcList);
+//        //切换带动画显示歌词
+//        lrcView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.music_text_change));
         handler.post(mRunnable);
     }
     Runnable mRunnable = new Runnable() {
 
         @Override
         public void run() {
-            lrcView.setIndex(lrcIndex());
+            lrcView.setCurrentTime(musicServiceManager.getCurrentPosition(),true);
             lrcView.invalidate();
             handler.postDelayed(mRunnable, 100);
         }
     };
 
-    /**
-     * 根据时间获取歌词显示的索引值
-     * @return
-     */
-    public int lrcIndex() {
-        int CURRENT_POSITION =0 ;
-        int duration =0;
-        if(musicServiceManager.getPlaySate()) {
-            CURRENT_POSITION = musicServiceManager.getCurrentPosition();
-            duration = musicServiceManager.getDuration();
-        }
-        if(CURRENT_POSITION < duration) {
-            for (int i = 0; i < lrcList.size(); i++) {
-                if (i < lrcList.size() - 1) {
-                    if (CURRENT_POSITION < lrcList.get(i).getLrcTime() && i == 0) {
-                        index = i;
-                    }
-                    if (CURRENT_POSITION > lrcList.get(i).getLrcTime()
-                            && CURRENT_POSITION < lrcList.get(i + 1).getLrcTime()) {
-                        index = i;
-                    }
-                }
-                if (i == lrcList.size() - 1
-                        && CURRENT_POSITION > lrcList.get(i).getLrcTime()) {
-                    index = i;
-                }
-            }
-        }
-        return index;
-    }
+//    /**
+//     * 根据时间获取歌词显示的索引值
+//     * @return
+//     */
+//    public int lrcIndex() {
+//        int CURRENT_POSITION =0 ;
+//        int duration =0;
+//        if(musicServiceManager.getPlaySate()) {
+//            CURRENT_POSITION = musicServiceManager.getCurrentPosition();
+//            duration = musicServiceManager.getDuration();
+//        }
+//        if(CURRENT_POSITION < duration) {
+//            for (int i = 0; i < lrcList.size(); i++) {
+//                if (i < lrcList.size() - 1) {
+//                    if (CURRENT_POSITION < lrcList.get(i).getLrcTime() && i == 0) {
+//                        index = i;
+//                    }
+//                    if (CURRENT_POSITION > lrcList.get(i).getLrcTime()
+//                            && CURRENT_POSITION < lrcList.get(i + 1).getLrcTime()) {
+//                        index = i;
+//                    }
+//                }
+//                if (i == lrcList.size() - 1
+//                        && CURRENT_POSITION > lrcList.get(i).getLrcTime()) {
+//                    index = i;
+//                }
+//            }
+//        }
+//        return index;
+//    }
 
     public class MyMusicBroadcastRecevier extends BroadcastReceiver {
         private int musicid;

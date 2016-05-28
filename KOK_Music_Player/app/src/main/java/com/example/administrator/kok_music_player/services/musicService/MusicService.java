@@ -1,5 +1,6 @@
 package com.example.administrator.kok_music_player.services.musicService;
 
+import android.app.AlarmManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -20,8 +21,6 @@ import android.view.animation.AnimationUtils;
 import com.example.administrator.kok_music_player.MusicPlayerInterface;
 import com.example.administrator.kok_music_player.PlayMusicActivity;
 import com.example.administrator.kok_music_player.R;
-import com.example.administrator.kok_music_player.Utils.musicutils.LrcContent;
-import com.example.administrator.kok_music_player.Utils.musicutils.LrcProcess;
 import com.example.administrator.kok_music_player.Utils.musicutils.MediaUtil;
 import com.example.administrator.kok_music_player.Utils.musicutils.MusicInfo;
 
@@ -455,7 +454,6 @@ public class MusicService extends Service  {
         intent.putExtra(PROGRESS, progress);
         sendBroadcast(intent);
     }
-
 
 
 

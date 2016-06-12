@@ -27,7 +27,12 @@
         <activity
             android:name=".PlayMusicActivity"
             android:theme="@style/PlayMusicActivityTheme"></activity>
+        <activity
+            android:name=".ScanMusicActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
+
+        <!--服务-->
         <service
             android:name=".services.musicService.MusicService"
             android:enabled="true">

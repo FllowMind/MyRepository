@@ -48,7 +48,6 @@ public class LyricView extends View {
 
     // View 宽高
     private int mWidth = 0, mHeight = 0;
-
     private ValueAnimator mLineAnimator;
     private long mLineAnimDuration = 400; // 歌词滚动动画时间长度
     private int mLineOffset = 0; // 动画当前偏移

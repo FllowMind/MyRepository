@@ -53,4 +53,26 @@ public class MusicSearchServiceManager {
         }
         return null;
     }
+
+    /**
+     * 开始扫描
+     */
+    public void startSearch(){
+        try {
+            musicSearchInterface.startSearch();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+    public void stopSearch(){
+        try {
+            musicSearchInterface.stopSearch();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unbind(){
+        context.unbindService(connection);
+    }
 }

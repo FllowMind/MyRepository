@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.administrator.kok_music_player.Utils;
+package com.example.administrator.kok_music_player.customview;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

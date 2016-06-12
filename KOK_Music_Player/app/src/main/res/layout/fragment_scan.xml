@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ScanFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/show_scan_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/scanmusic_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/titlebar_color"
+                android:text="@string/scan_music"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/show_scan_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</FrameLayout>

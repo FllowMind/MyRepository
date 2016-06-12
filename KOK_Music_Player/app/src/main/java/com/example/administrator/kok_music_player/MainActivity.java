@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
 //设置状态栏颜色
         window.setStatusBarColor(Color.BLACK);
 
+
         ViewGroup mContentView = (ViewGroup) this.findViewById(Window.ID_ANDROID_CONTENT);
         View mChildView = mContentView.getChildAt(0);
         if (mChildView != null) {
@@ -152,8 +153,6 @@ public class MainActivity extends AppCompatActivity
 
         musicSSManager = new MusicSearchServiceManager(this);//初始化音乐搜索服务管理器
         musicServiceManager = new MusicServiceManager(this);//初始化音乐播放服务管理器
-
-
         recevier = new MyMusicBroadcastRecevier();//初始化广播接收者
         pictureUtil = new PictureUtil(this);
 
@@ -405,7 +404,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_scanmusic) {
+            Intent scanIntent = new Intent(this, ScanMusicActivity.class);
+            startActivity(scanIntent);
             return true;
         }
 

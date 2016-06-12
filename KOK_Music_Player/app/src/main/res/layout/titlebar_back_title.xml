@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:orientation="horizontal"
+    android:background="@color/titlebar_color">
+
+    <ImageButton
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:id="@+id/titlebar_back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:textColor="@color/white"
+        android:id="@+id/titlebar_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="标题"
+        android:textSize="16dp" />
+
+    <ImageButton
+        android:scaleType="fitXY"
+        android:id="@+id/titlebar_funtion_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/menu_normal"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>

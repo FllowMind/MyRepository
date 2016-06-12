@@ -11,13 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.kok_music_player.Utils.MyStatuBar;
+import com.example.administrator.kok_music_player.customview.MyStatuBar;
 import com.example.administrator.kok_music_player.Utils.musicutils.Lyric;
 import com.example.administrator.kok_music_player.Utils.musicutils.LyricHelper;
 import com.example.administrator.kok_music_player.Utils.musicutils.MediaUtil;
@@ -60,6 +59,11 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private List<Lyric> lrcList = new ArrayList<Lyric>(); //存放歌词列表对象
     private LyricHelper lyricHelper ;
 
+    private static final String PREFERNENCE_NAME = "preferences_name";
+    private static final String MUSIC_ID_INFO= "music_id_info";
+    private static final String MUSIC_PROGRESS_INFO = "music_progress_info";
+    private static final String MUSIC_PLAYMODE_INFO = "music_playmode_info";
+
 
 
 
@@ -69,6 +73,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         MyStatuBar.initSystemBar(this, Color.TRANSPARENT);
         setContentView(R.layout.activity_play_music);
+
+
 
         curren_pro = (TextView) this.findViewById(R.id.played_time);
         total_pro = (TextView) this.findViewById(R.id.total_time);
@@ -128,7 +134,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
                     break;
                 case UPDATE_SONG:
-
                     break;
                 case UPDATE_PLAY_STATE:
                     boolean play_state = (boolean) msg.obj;

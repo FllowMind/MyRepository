@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+        <include
+            layout="@layout/titlebar_back_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_marginLeft="16dp"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:singleLine="true"-->
+    <!--android:ellipsize="end"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="16dp"-->
+    <!--android:id="@+id/show_scan_path"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--<Button-->
+    <!--android:textColor="@color/white"-->
+    <!--android:id="@+id/scanmusic_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/titlebar_color"-->
+    <!--android:text="@string/scan_music" />-->
+
+    <!--<TextView-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="16dp"-->
+    <!--android:id="@+id/show_scan_num"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+    <!--</LinearLayout>-->
+
+
+</LinearLayout>

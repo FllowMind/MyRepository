@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -55,6 +56,13 @@ public class MusicService extends Service  {
     private List musicInfos;
     private final String TAG = this.getClass().getName();
     private boolean isInterrupted = false;//用于判断是否被来电等中断
+    private static final String PREFERNENCE_NAME = "preferences_name";
+    private static final String MUSIC_ID_INFO= "music_id_info";
+    private static final String MUSIC_PROGRESS_INFO = "music_progress_info";
+    private static final String MUSIC_PLAYMODE_INFO = "music_playmode_info";
+
+    private  SharedPreferences preferences;
+
 
 
 
@@ -68,6 +76,7 @@ public class MusicService extends Service  {
     @Override
     public boolean onUnbind(Intent intent) {
         mediaPlayer.stop();
+        saveAllStates();
         return super.onUnbind(intent);
     }
 
@@ -217,7 +226,8 @@ public class MusicService extends Service  {
         };
         autoMusic();//自动播放下一首歌曲
 
-
+        preferences = getSharedPreferences(PREFERNENCE_NAME, Context.MODE_PRIVATE);
+        setStates();
     }
 
     //无处理主要用于定时器
@@ -294,7 +304,7 @@ public class MusicService extends Service  {
             isplaying = false;
             notyUser(true);
         }
-
+        saveAllStates();
     }
 
 
@@ -418,7 +428,6 @@ public class MusicService extends Service  {
         broadcastintent.putExtra(PLAY_STATE, isplaying);
         broadcastintent.putExtra(SONG_CHANGED, songchanged);
         sendBroadcast(broadcastintent);
-
     }
 
     /**
@@ -455,6 +464,21 @@ public class MusicService extends Service  {
         sendBroadcast(intent);
     }
 
+    /**
+     * 保存状态信息
+     */
+    private void saveAllStates(){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(MUSIC_ID_INFO, MUSIC_ID);
+        editor.putInt(MUSIC_PLAYMODE_INFO, PLAY_MODEL);
+        editor.putInt(MUSIC_PROGRESS_INFO, mediaPlayer.getCurrentPosition());
+    }
+
+    private void setStates(){
+        MUSIC_ID= preferences.getInt(MUSIC_ID_INFO, 0);
+        CURRENT_POSITION = preferences.getInt(MUSIC_PROGRESS_INFO, 0);
+        PLAY_MODEL = preferences.getInt(MUSIC_PLAYMODE_INFO, 1);
+    }
 
 
     /**

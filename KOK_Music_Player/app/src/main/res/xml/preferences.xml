@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="扫描设置">
+        <CheckBoxPreference android:key="size_limit1"
+        android:title="不扫描100K以下的歌曲"/>
+        <CheckBoxPreference android:key="size_limit2"
+            android:title="不扫描60秒以下的歌曲"/>
+        <Preference android:key="src_limit"
+            android:title="不扫描的文件夹"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

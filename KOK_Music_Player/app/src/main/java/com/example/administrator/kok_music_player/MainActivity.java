@@ -31,12 +31,11 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.kok_music_player.customview.CImageView;
 import com.example.administrator.kok_music_player.services.musicService.MusicServiceManager;
 import com.example.administrator.kok_music_player.services.musicsearchservice.MusicSearchServiceManager;
-import com.example.administrator.kok_music_player.Utils.imageloader.ImageAdapter;
+import com.example.administrator.kok_music_player.Adatpters.ImageAdapter;
 import com.example.administrator.kok_music_player.Utils.imageloader.ImageDownLoader;
 import com.example.administrator.kok_music_player.Utils.musicutils.MediaUtil;
 import com.example.administrator.kok_music_player.Utils.musicutils.MusicInfo;
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
         }
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+//        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         setContentView(R.layout.activity_main);
 //        MyStatuBar.initSystemBar(this,Color.BLACK);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -371,18 +370,19 @@ public class MainActivity extends AppCompatActivity
                 i.addCategory(Intent.CATEGORY_HOME);
                 startActivity(i);
             } else {
-                Toast.makeText(this, "再按一次退出到桌面！", Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                            pressCount = 0;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+                finish();
+//                Toast.makeText(this, "再按一次退出到桌面！", Toast.LENGTH_SHORT).show();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(2000);
+//                            pressCount = 0;
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
             }
 
 
@@ -431,6 +431,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_exit) {
             musicServiceManager.pauseMusic();
+            musicServiceManager.saveAllstate();
             musicServiceManager.unbindService();
             System.exit(0);
         }

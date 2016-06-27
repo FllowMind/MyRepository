@@ -6,6 +6,8 @@
     <color name="pup">#970ddc</color>
     <color name="white">#FFFFFF</color>
     <color name="gray_black">#353232</color>
+    <color name="gray_white">#efdbdb</color>
+    <color name="dark_black">#131313</color>
     <color name="seekbar_thumb">#fa5375</color>
     <color name="titlebar_color">#e51c23</color>
     <color name="systembar_color_red">#d01710</color>

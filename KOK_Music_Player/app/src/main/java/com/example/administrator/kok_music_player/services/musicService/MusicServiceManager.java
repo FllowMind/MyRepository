@@ -132,6 +132,17 @@ public class MusicServiceManager {
         return progress;
     }
 
+    /**
+     * 保存播放状态
+     */
+    public void saveAllstate(){
+        try {
+            playerInterface.savaAllState();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*当前播放状态*/
     public boolean getPlaySate(){
         try {

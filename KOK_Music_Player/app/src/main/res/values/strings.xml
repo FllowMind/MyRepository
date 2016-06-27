@@ -1,5 +1,13 @@
 <resources>
 
+    <string name="server_url">http://172.27.112.1:8080/KOKServer</string>
+
+    <string name="album_ads1">/Resources/News/album_ads1.jpg</string>
+    <string name="album_ads2">/Resources/News/album_ads2.jpg</string>
+    <string name="album_ads3">/Resources/News/album_ads3.jpg</string>
+    <string name="album_ads4">/Resources/News/album_ads4.jpg</string>
+    <string name="album_ads5">/Resources/News/album_ads5.jpg</string>
+
     <string name="app_name">i音乐</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -7,9 +15,11 @@
     <string name="no_lyrics">没找到歌词！请下载歌词！</string>
     <string name="scan_music">扫描音乐</string>
     <string name="title_choosefile">选择扫描的文件夹</string>
-    <string name="title_scansetting" >扫描设置</string>
+    <string name="title_scansetting">扫描设置</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="guess_you_like">猜你喜欢</string>
+    <string name="all_listening">大家在听</string>
+    <string name="recommend">推荐</string>
 </resources>

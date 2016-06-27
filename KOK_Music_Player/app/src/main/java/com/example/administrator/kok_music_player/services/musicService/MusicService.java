@@ -75,8 +75,8 @@ public class MusicService extends Service  {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        mediaPlayer.stop();
         saveAllStates();
+        mediaPlayer.stop();
         return super.onUnbind(intent);
     }
 
@@ -223,6 +223,11 @@ public class MusicService extends Service  {
             public void requestState() throws RemoteException {
                 notyUser(false);
             }
+
+            @Override
+            public void savaAllState() throws RemoteException {
+                saveAllStates();
+            }
         };
         autoMusic();//自动播放下一首歌曲
 
@@ -304,7 +309,6 @@ public class MusicService extends Service  {
             isplaying = false;
             notyUser(true);
         }
-        saveAllStates();
     }
 
 
@@ -329,6 +333,7 @@ public class MusicService extends Service  {
     private String getMusicPath(int position) {
         MusicInfo mp3Info = (MusicInfo) musicInfos.get(position);
         return mp3Info.getUrl();
+//        return "http://172.29.125.1:8080/KOKServer/Musics/DJ.mp3";
     }
 
 
@@ -468,16 +473,19 @@ public class MusicService extends Service  {
      * 保存状态信息
      */
     private void saveAllStates(){
+        Log.i("test", "save");
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(MUSIC_ID_INFO, MUSIC_ID);
         editor.putInt(MUSIC_PLAYMODE_INFO, PLAY_MODEL);
         editor.putInt(MUSIC_PROGRESS_INFO, mediaPlayer.getCurrentPosition());
+        editor.commit();
     }
 
     private void setStates(){
         MUSIC_ID= preferences.getInt(MUSIC_ID_INFO, 0);
         CURRENT_POSITION = preferences.getInt(MUSIC_PROGRESS_INFO, 0);
         PLAY_MODEL = preferences.getInt(MUSIC_PLAYMODE_INFO, 1);
+        Log.i("test", "Musid" + MUSIC_ID);
     }
 
 

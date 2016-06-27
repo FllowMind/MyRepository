@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -17,33 +16,32 @@
             android:name=".MainActivity"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".PlayMusicActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".ScanMusicActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity android:name=".MainMusicActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PlayMusicActivity"
-            android:theme="@style/PlayMusicActivityTheme"></activity>
-        <activity
-            android:name=".ScanMusicActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-
-
-        <!--服务-->
+        <activity android:name=".MusicSetActivity" />
+        <activity android:name=".ChartActivity" />
+        <activity android:name=".CategoryActivity" />
+        <!-- 服务 -->
         <service
             android:name=".services.musicService.MusicService"
-            android:enabled="true">
-
-        </service>
+            android:enabled="true" />
         <service
             android:name=".services.musicsearchservice.MusicSearchService"
             android:enabled="true" />
 
-
+        <activity android:name=".MusicListActivity"></activity>
     </application>
-
 
 </manifest>

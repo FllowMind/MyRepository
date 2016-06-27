@@ -27,4 +27,5 @@ interface MusicPlayerInterface {
             void changePlayModel();
             String getMusicName();
             void requestState();
+            void savaAllState();
 }

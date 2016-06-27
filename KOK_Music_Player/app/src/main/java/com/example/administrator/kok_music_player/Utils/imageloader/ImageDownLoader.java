@@ -338,34 +338,34 @@ public class ImageDownLoader {
     }
 
     private Bitmap getArtworkFromFile(Context context, long songid, long albumid) {
-            Bitmap bm = null;
-            byte [] art = null;
-            String path = null;
-            if (albumid < 0 && songid < 0) {
-                throw new IllegalArgumentException("Must specify an album or a song id");
-            }
-            try {
-                if (albumid < 0) {
-                    Uri uri = Uri.parse("content://media/external/audio/media/" + songid + "/albumart");
-                    ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
-                    if (pfd != null) {
-                        FileDescriptor fd = pfd.getFileDescriptor();
-                        bm = BitmapFactory.decodeFileDescriptor(fd);
-                    }
-                } else {
-                    Uri uri = ContentUris.withAppendedId(sArtworkUri, albumid);
-                    ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
-                    if (pfd != null) {
-                        FileDescriptor fd = pfd.getFileDescriptor();
-                        bm = BitmapFactory.decodeFileDescriptor(fd);
-                    }
+        Bitmap bm = null;
+        byte [] art = null;
+        String path = null;
+        if (albumid < 0 && songid < 0) {
+            throw new IllegalArgumentException("Must specify an album or a song id");
+        }
+        try {
+            if (albumid < 0) {
+                Uri uri = Uri.parse("content://media/external/audio/media/" + songid + "/albumart");
+                ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
+                if (pfd != null) {
+                    FileDescriptor fd = pfd.getFileDescriptor();
+                    bm = BitmapFactory.decodeFileDescriptor(fd);
                 }
-            } catch (FileNotFoundException ex) {
+            } else {
+                Uri uri = ContentUris.withAppendedId(sArtworkUri, albumid);
+                ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
+                if (pfd != null) {
+                    FileDescriptor fd = pfd.getFileDescriptor();
+                    bm = BitmapFactory.decodeFileDescriptor(fd);
+                }
+            }
+        } catch (FileNotFoundException ex) {
 
-            }
-            if (bm != null) {
-                mCachedBit = bm;
-            }
+        }
+        if (bm != null) {
+            mCachedBit = bm;
+        }
 
 
         return bm;

@@ -1,4 +1,4 @@
-package com.example.administrator.kok_music_player.Utils.imageloader;
+package com.example.administrator.kok_music_player.Adatpters;
 
 /**
  * Created by Administrator on 2016/5/7.
@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.administrator.kok_music_player.Utils.imageloader.ImageDownLoader;
 import com.example.administrator.kok_music_player.customview.CImageView;
 import com.example.administrator.kok_music_player.R;
 import com.example.administrator.kok_music_player.Utils.musicutils.MusicInfo;
@@ -150,7 +151,6 @@ public class ImageAdapter extends BaseAdapter implements OnScrollListener {
             holder.songerIcon_view = (CImageView) convertView.findViewById(R.id.songerIcon);
             holder.songerInfo_view = (TextView) convertView.findViewById(R.id.songer_info);
             holder.music_Name_view = (TextView) convertView.findViewById(R.id.music_name);
-//                holder.manager_btn = (ImageButton) convertView.findViewById(R.id.manager);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

@@ -70,7 +70,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+//        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         MyStatuBar.initSystemBar(this, Color.TRANSPARENT);
         setContentView(R.layout.activity_play_music);
 
@@ -331,7 +331,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+//        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     @Override

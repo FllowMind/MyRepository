@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="albumimageurl" match-catalog="kok"></table-filter>
+	<table-filter match-name="albuminfo" match-catalog="kok"></table-filter>
+	<table-filter match-name="artistimageurl" match-catalog="kok"></table-filter>
+	<table-filter match-name="artistinfo" match-catalog="kok"></table-filter>
+	<table-filter match-name="musicattribute" match-catalog="kok"></table-filter>
+	<table-filter match-name="musicinfo" match-catalog="kok"></table-filter>
+	<table-filter match-name="musicsetcontent" match-catalog="kok"></table-filter>
+	<table-filter match-name="musicsetimage" match-catalog="kok"></table-filter>
+	<table-filter match-name="musicsetinfo" match-catalog="kok"></table-filter>
+	<table-filter match-name="recmusicsets" match-catalog="kok"></table-filter>
+</hibernate-reverse-engineering>

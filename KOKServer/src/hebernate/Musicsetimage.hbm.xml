@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-27 19:09:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="hebernate.Musicsetimage" table="musicsetimage" catalog="kok">
+        <id name="musicsetImageId" type="string">
+            <column name="musicset_image_id" length="16" />
+            <generator class="assigned" />
+        </id>
+        <property name="musicsetId" type="string">
+            <column name="musicset_id" length="16" not-null="true" />
+        </property>
+        <property name="musicsetImageUrl" type="string">
+            <column name="musicset_image_url" length="64" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-27 19:09:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="hebernate.Musicattribute" table="musicattribute" catalog="kok">
+        <id name="musicId" type="string">
+            <column name="music_id" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="language" type="string">
+            <column name="language" length="8" not-null="true">
+                <comment>&#211;&#239;&#214;&#214;</comment>
+            </column>
+        </property>
+        <property name="style" type="string">
+            <column name="style" length="8" not-null="true">
+                <comment>&#183;&#231;&#184;&#241;</comment>
+            </column>
+        </property>
+        <property name="year" type="int">
+            <column name="year" not-null="true">
+                <comment>&#196;&#234;&#180;&#250;</comment>
+            </column>
+        </property>
+        <property name="mood1" type="string">
+            <column name="mood1" length="8" not-null="true">
+                <comment>&#208;&#196;&#199;&#233;1</comment>
+            </column>
+        </property>
+        <property name="mood2" type="string">
+            <column name="mood2" length="8">
+                <comment>&#208;&#196;&#199;&#233;2</comment>
+            </column>
+        </property>
+        <property name="mood3" type="string">
+            <column name="mood3" length="8">
+                <comment>&#208;&#196;&#199;&#233;3</comment>
+            </column>
+        </property>
+        <property name="scene1" type="string">
+            <column name="scene1" length="8" not-null="true">
+                <comment>&#179;&#161;&#190;&#176;1</comment>
+            </column>
+        </property>
+        <property name="scene2" type="string">
+            <column name="scene2" length="8">
+                <comment>&#179;&#161;&#190;&#176;2</comment>
+            </column>
+        </property>
+        <property name="scene3" type="string">
+            <column name="scene3" length="8">
+                <comment>&#179;&#161;&#190;&#176;3</comment>
+            </column>
+        </property>
+        <property name="scene4" type="string">
+            <column name="scene4" length="8">
+                <comment>&#179;&#161;&#190;&#176;4</comment>
+            </column>
+        </property>
+        <property name="scene5" type="string">
+            <column name="scene5" length="8">
+                <comment>&#179;&#161;&#190;&#176;5</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

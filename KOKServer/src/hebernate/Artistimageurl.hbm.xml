@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-27 19:09:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="hebernate.Artistimageurl" table="artistimageurl" catalog="kok">
+        <id name="artistUrlId" type="string">
+            <column name="artist_url_id" length="16" />
+            <generator class="assigned" />
+        </id>
+        <property name="artistId" type="string">
+            <column name="artist_id" length="16" not-null="true" />
+        </property>
+        <property name="artistImageUrl" type="string">
+            <column name="artist_image_url" length="64" />
+        </property>
+        <property name="artistImageType" type="java.lang.Integer">
+            <column name="artist_image_type" />
+        </property>
+        <property name="artistImageInfo" type="string">
+            <column name="artist_image_info" length="64" />
+        </property>
+    </class>
+</hibernate-mapping>

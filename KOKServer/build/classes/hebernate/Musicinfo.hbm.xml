@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-27 19:09:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="hebernate.Musicinfo" table="musicinfo" catalog="kok">
+        <composite-id name="id" class="hebernate.MusicinfoId">
+            <key-property name="musicId" type="string">
+                <column name="music_id" length="16" />
+            </key-property>
+            <key-property name="artistId" type="int">
+                <column name="artist_id" />
+            </key-property>
+        </composite-id>
+        <property name="musicTitle" type="string">
+            <column name="music_title" length="16" />
+        </property>
+        <property name="musicSize" type="string">
+            <column name="music_size" length="8" />
+        </property>
+        <property name="musicUrl" type="string">
+            <column name="music_url" length="64" />
+        </property>
+        <property name="hotIndex" type="java.lang.Integer">
+            <column name="hot_index" />
+        </property>
+        <property name="albumId" type="java.lang.Integer">
+            <column name="album_id" />
+        </property>
+    </class>
+</hibernate-mapping>

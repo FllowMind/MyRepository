@@ -1,6 +1,8 @@
 package com.example.administrator.kok_music_player;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -8,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,6 +94,9 @@ public class MainMusicActivity extends AppCompatActivity implements View.OnClick
 
         MyConnection connection = new MyConnection();
         connection.execute();
+
+        LinearLayout ll = (LinearLayout) this.findViewById(R.id.all_listen);
+        ll.setOnClickListener(this);
     }
 
     private Handler handler = new Handler() {
@@ -173,28 +180,28 @@ public class MainMusicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setRecommend() {
-        musicset_pic1.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url)+
+        musicset_pic1.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url) +
                 recommendinfos.get(0).get(MusicSetImageFields.MUSICSET_IMAGE_URL), null));
-        musicset_pic2.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url)+
+        musicset_pic2.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url) +
                 recommendinfos.get(1).get(MusicSetImageFields.MUSICSET_IMAGE_URL), null));
-        musicset_pic3.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url)+
+        musicset_pic3.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url) +
                 recommendinfos.get(2).get(MusicSetImageFields.MUSICSET_IMAGE_URL), null));
-        musicset_pic4.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url)+
+        musicset_pic4.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url) +
                 recommendinfos.get(3).get(MusicSetImageFields.MUSICSET_IMAGE_URL), null));
-        musicset_pic5.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url)+
+        musicset_pic5.setImageBitmap(downLoader.downloadImage(getString(R.string.server_url) +
                 recommendinfos.get(4).get(MusicSetImageFields.MUSICSET_IMAGE_URL), null));
 
-        musicsetinfo1.setText("| 歌单介绍:"+recommendinfos.get(0).get(MusicSetInfoFields.MUSICSET_INFO));
-        musicsetinfo2.setText("| 歌单介绍:"+recommendinfos.get(1).get(MusicSetInfoFields.MUSICSET_INFO));
-        musicsetinfo3.setText("| 歌单介绍:"+recommendinfos.get(2).get(MusicSetInfoFields.MUSICSET_INFO));
-        musicsetinfo4.setText("| 歌单介绍:"+recommendinfos.get(3).get(MusicSetInfoFields.MUSICSET_INFO));
-        musicsetinfo5.setText("| 歌单介绍:"+recommendinfos.get(4).get(MusicSetInfoFields.MUSICSET_INFO));
+        musicsetinfo1.setText("| 歌单介绍:" + recommendinfos.get(0).get(MusicSetInfoFields.MUSICSET_INFO));
+        musicsetinfo2.setText("| 歌单介绍:" + recommendinfos.get(1).get(MusicSetInfoFields.MUSICSET_INFO));
+        musicsetinfo3.setText("| 歌单介绍:" + recommendinfos.get(2).get(MusicSetInfoFields.MUSICSET_INFO));
+        musicsetinfo4.setText("| 歌单介绍:" + recommendinfos.get(3).get(MusicSetInfoFields.MUSICSET_INFO));
+        musicsetinfo5.setText("| 歌单介绍:" + recommendinfos.get(4).get(MusicSetInfoFields.MUSICSET_INFO));
 
-        musicset_title1.setText("| "+recommendinfos.get(0).get(MusicSetInfoFields.MUSICSET_TITLE));
-        musicset_title2.setText("| "+recommendinfos.get(1).get(MusicSetInfoFields.MUSICSET_TITLE));
-        musicset_title3.setText("| "+recommendinfos.get(2).get(MusicSetInfoFields.MUSICSET_TITLE));
-        musicset_title4.setText("| "+recommendinfos.get(3).get(MusicSetInfoFields.MUSICSET_TITLE));
-        musicset_title5.setText("| "+recommendinfos.get(4).get(MusicSetInfoFields.MUSICSET_TITLE));
+        musicset_title1.setText("| " + recommendinfos.get(0).get(MusicSetInfoFields.MUSICSET_TITLE));
+        musicset_title2.setText("| " + recommendinfos.get(1).get(MusicSetInfoFields.MUSICSET_TITLE));
+        musicset_title3.setText("| " + recommendinfos.get(2).get(MusicSetInfoFields.MUSICSET_TITLE));
+        musicset_title4.setText("| " + recommendinfos.get(3).get(MusicSetInfoFields.MUSICSET_TITLE));
+        musicset_title5.setText("| " + recommendinfos.get(4).get(MusicSetInfoFields.MUSICSET_TITLE));
 
 
     }
@@ -321,7 +328,33 @@ public class MainMusicActivity extends AppCompatActivity implements View.OnClick
                 Intent intent4 = new Intent(this, MainActivity.class);
                 startActivity(intent4);
                 break;
+            case R.id.all_listen:
+                PackageManager pn = getPackageManager();
+                List<ResolveInfo>act = pn.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH),0);
+                if(act.size()==0){
+                    Log.i("test","没有语音包");
+                }else{
+                    Log.i("test","有语音包");
+                    Intent intent5 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent5.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    intent5.putExtra(RecognizerIntent.EXTRA_PROMPT, "语音输入");
+                    startActivityForResult(intent5, 1);
+                }
+
+                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                musicsetinfo1.setText(matches.get(0));
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public class DepthPageTransformer implements ViewPager.PageTransformer {

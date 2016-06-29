@@ -22,6 +22,8 @@ import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 import com.kok.model.InfoManager;
 
+import hebernate.ArtistimageurlHome;
+
 public class Test {
 
 	public static void main(String[] args) {
@@ -33,9 +35,10 @@ public class Test {
 		String[]arg = {"12"};
 		ArrayList<Map<String, String>> list = manager.getMulInfos("musicinfo", null, null, null,null,null);
 		
-		System.out.println(list.get(0).get("music_title"));
 		
-		
+//		 ArtistimageurlHome home = new  ArtistimageurlHome();
+//		 home.findById("11");
+//		 System.out.println( home.findById("11").getArtistImageUrl());
 	}
 
 }

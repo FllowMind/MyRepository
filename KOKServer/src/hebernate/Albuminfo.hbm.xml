@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-27 19:09:29 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="hebernate.Albuminfo" table="albuminfo" catalog="kok">
+        <id name="albumId" type="int">
+            <column name="album_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="albumTitle" type="string">
+            <column name="album_title" length="16" />
+        </property>
+        <property name="albumInfo" type="string">
+            <column name="album_info" length="64" />
+        </property>
+        <property name="hotIndex" type="java.lang.Integer">
+            <column name="hot_index" />
+        </property>
+    </class>
+</hibernate-mapping>

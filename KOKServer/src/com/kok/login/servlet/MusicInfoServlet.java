@@ -26,6 +26,8 @@ import com.kok.model.InfoManager;
 import com.kok.model.MusicInfoManager;
 import com.kok.utils.PrinterUtil;
 
+import hebernate.ArtistimageurlHome;
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -41,6 +43,7 @@ public class MusicInfoServlet extends HttpServlet {
     	
         System.out.println("初始化音乐信息管理器");
         // TODO Auto-generated constructor stub
+   	
     }
 
 	/**
@@ -102,6 +105,10 @@ public class MusicInfoServlet extends HttpServlet {
 		ObjectOutputStream oStream = new ObjectOutputStream(outputStream);
 		String json = getJson(userdata);
 		oStream.writeObject(json);
+		
+		 ArtistimageurlHome home = new  ArtistimageurlHome();
+		 home.findById("11");
+		 System.out.println("url"+ home.findById("11").getArtistImageUrl());
 
 	}
 	
